@@ -1,0 +1,42 @@
+{
+    "name": "@mayahq/text-to-text",
+    "version": "1.0.6",
+    "description": "Maya module to proxy to a foundational text completion service",
+    "main": "index.js",
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mayahq/maya-language-service.git"
+    },
+    "author": "humans@mayalabs.io",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mayahq/mayadev/issues"
+    },
+    "homepage": "https://github.com/mayahq/maya-language-service#readme",
+    "nodepath": "src/nodes",
+    "nodeRedModuleName": "text-to-text",
+    "node-red": {
+        "nodes": {
+            "completion": "src/nodes/completion/completion.node.js",
+            "auth": "src/nodes/mayaKey/mayaKey.node.js"
+        }
+    },
+    "mayaDetails": {
+        "name": "text-to-text",
+        "version": "1.0.0",
+        "description": "Maya module to proxy to a foundational text completion service",
+        "author": "humans@mayalabs.io",
+        "type": "npm",
+        "needsUserProfile": false,
+        "thumbnail": "",
+        "repository": {
+            "type": "git",
+            "url": "git+https://github.com/mayahq/maya-language-service.git"
+        }
+    },
+    "dependencies": {
+        "@mayahq/module-sdk": "^2.3.5",
+        "axios": "^1.2.3"
+    }
+}

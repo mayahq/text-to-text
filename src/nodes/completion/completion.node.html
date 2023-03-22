@@ -1,0 +1,188 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("completion", {
+        category: "Mayahq Text To Text :: Language Service",
+        color: "#37B954",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            auth: {
+                value: "",
+                type: "maya-resources-auth",
+                required: true
+            },
+            prompt: {
+                value: "abc",
+                required: false
+            },
+            payloadTypeprompt: {
+                value: "str"
+            },
+            model: {
+                value: "gpt-3.5-turbo"
+            },
+            temperature: {
+                value: "0.7",
+                required: false
+            },
+            payloadTypetemperature: {
+                value: "num"
+            },
+            maxToken: {
+                value: "400",
+                required: false
+            },
+            payloadTypemaxToken: {
+                value: "num"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Completion"
+        },
+        paletteLabel: "Completion",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypeprompt === null) {
+                if (this.prompt === "") {
+                    this.payloadTypeprompt = "date"
+                } else {
+                    this.payloadTypeprompt = "str"
+                }
+            } else if (this.payloadTypeprompt === 'string' || this.payloadTypeprompt === 'none') {
+                this.payloadTypeprompt = "str"
+            }
+
+            $("#node-input-payloadTypeprompt").val(this.payloadTypeprompt)
+            $("#node-input-prompt").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeprompt"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-prompt").typedInput("type", this.payloadTypeprompt)
+
+            const modelselectFieldValues = ["gpt-3.5-turbo"]
+            modelselectFieldValues.forEach((val) => {
+                $("#node-input-model").append($("<option></option>").attr("value", val).text(val))
+            })
+            $("#node-input-model").val(this.model)
+
+            if (this.payloadTypetemperature === null) {
+                if (this.temperature === "") {
+                    this.payloadTypetemperature = "date"
+                } else {
+                    this.payloadTypetemperature = "num"
+                }
+            } else if (this.payloadTypetemperature === 'string' || this.payloadTypetemperature === 'none') {
+                this.payloadTypetemperature = "num"
+            }
+
+            $("#node-input-payloadTypetemperature").val(this.payloadTypetemperature)
+            $("#node-input-temperature").typedInput({
+                default: "num",
+                typeField: $("#node-input-payloadTypetemperature"),
+                types: ["num"]
+            })
+            $("#node-input-temperature").typedInput("type", this.payloadTypetemperature)
+
+            if (this.payloadTypemaxToken === null) {
+                if (this.maxToken === "") {
+                    this.payloadTypemaxToken = "date"
+                } else {
+                    this.payloadTypemaxToken = "num"
+                }
+            } else if (this.payloadTypemaxToken === 'string' || this.payloadTypemaxToken === 'none') {
+                this.payloadTypemaxToken = "num"
+            }
+
+            $("#node-input-payloadTypemaxToken").val(this.payloadTypemaxToken)
+            $("#node-input-maxToken").typedInput({
+                default: "num",
+                typeField: $("#node-input-payloadTypemaxToken"),
+                types: ["num"]
+            })
+            $("#node-input-maxToken").typedInput("type", this.payloadTypemaxToken)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="completion">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-auth">Auth</label>
+        <input type="text" id="node-input-auth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-prompt">prompt</label>
+        <input type="text" id="node-input-prompt"></input>
+        <input type="hidden" id="node-input-payloadTypeprompt">
+    </div>
+    <div class="form-row">
+        <label for="node-input-model">model</label>
+        <select type="text" id="node-input-model">
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-temperature">temperature</label>
+        <input type="text" id="node-input-temperature"></input>
+        <input type="hidden" id="node-input-payloadTypetemperature">
+    </div>
+    <div class="form-row">
+        <label for="node-input-maxToken">max tokens</label>
+        <input type="text" id="node-input-maxToken"></input>
+        <input type="hidden" id="node-input-payloadTypemaxToken">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="completion">
+    <h2>Description</h2>
+    <p>Documentation for the completion node. This node can be configured to use different language models as exposed by multiple services and offered for usage through Maya</p>
+    <p>You are required to obtain developer key from settings -> developers in the Maya application and set it in auth configuration to use it.</p>
+    <p>The cost of usage of this node depends on the service, model and number of tokens used in every request.</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>auth<span class="property-type">config</span></dt>
+        <dd>Create/select a authentication configuration to access language model.<br>Find your Maya developer key in Settings -> Developer</dd>
+
+        <dt>prompt <span class="property-type">string</span></dt>
+        <dd>Input prompt to be completed by the language model. Must contains tokens (approximate number of words) lower than the max token set.</dd>
+
+        <dt>model<span class="property-type">string</span></dt>
+        <dd>Select which language model to use for completion from the available models</dd>
+
+        <dt>temperature<span class="property-type">number</span></dt>
+        <dd>Randomness to be introduced in the generated response. A number between 0 to 1 represents most determinitic and repetitive at 0 to least deterministic most creatiev at 1</dd>
+
+        <dt>max tokens<span class="property-type">number</span></dt>
+        <dd>Maximum number of tokens (approximately word of 4 characters) that can be present as as sum of input and output completion. The maximum for this value can vary between models and servies and are priced differently</dd>
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload.prompt<span class="property-type">string</span></dt>
+        <dd>The input prompt sent to the model for completion</dd>
+
+        <dt>payload.completed <span class="property-type">string</span></dt>
+        <dd>The completion result returned by the selected language model</dd>
+
+    </dl>
+</script>

@@ -1,0 +1,137 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Maya Language Service Proxy",
+    "description": "Proxy to the language service to be used with Maya",
+    "contact": {
+      "name": "Maya Support",
+      "url": "https://mayalabs.io",
+      "email": "humans@mayalabs.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "0.0.1-beta"
+  },
+  "paths": {
+    "/api/completion": {
+      "post": {
+        "tags": ["language-service"],
+        "summary": "Completion",
+        "operationId": "completion_api_completion_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompletionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompletionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CompletionRequest": {
+        "title": "CompletionRequest",
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "title": "prompt",
+            "type": "string"
+          },
+          "model":{
+            "title": "model",
+            "type": "string"
+          },
+          "temperature":{
+            "title": "temperature",
+            "type": "number"
+          },
+          "maxToken":{
+            "title": "max tokens",
+            "type": "integer"
+          }
+        }
+      },
+      "CompletionResponse": {
+        "title": "CompletionResponse",
+        "required": ["completed"],
+        "type": "object",
+        "properties": {
+          "completed": {
+            "title": "Completed",
+            "type": "string"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": ["loc", "msg", "type"],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

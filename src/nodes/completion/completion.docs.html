@@ -1,0 +1,35 @@
+<h2>Description</h2>
+<p>Documentation for the completion node. This node can be configured to use different language models as exposed by multiple services and offered for usage through Maya</p>
+<p>You are required to obtain developer key from settings -> developers in the Maya application and set it in auth configuration to use it.</p>
+<p>The cost of usage of this node depends on the service, model and number of tokens used in every request.</p>
+
+<h2>Config</h2>
+<dl class="message-properties">
+
+    <dt>auth<span class="property-type">config</span></dt>
+    <dd>Create/select a authentication configuration to access language model.<br>Find your Maya developer key in Settings -> Developer</dd>
+
+    <dt>prompt <span class="property-type">string</span></dt>
+    <dd>Input prompt to be completed by the language model. Must contains tokens (approximate number of words) lower than the max token set.</dd>
+
+    <dt>model<span class="property-type">string</span></dt>
+    <dd>Select which language model to use for completion from the available models</dd>
+
+    <dt>temperature<span class="property-type">number</span></dt>
+    <dd>Randomness to be introduced in the generated response. A number between 0 to 1 represents most determinitic and repetitive at 0 to least deterministic most creatiev at 1</dd>
+
+    <dt>max tokens<span class="property-type">number</span></dt>
+    <dd>Maximum number of tokens (approximately word of 4 characters) that can be present as as sum of input and output completion. The maximum for this value can vary between models and servies and are priced differently</dd>
+</dl>
+
+
+<h2>Outputs</h2>
+<dl class="message-properties">
+
+    <dt>payload.prompt<span class="property-type">string</span></dt>
+    <dd>The input prompt sent to the model for completion</dd>
+
+    <dt>payload.completed <span class="property-type">string</span></dt>
+    <dd>The completion result returned by the selected language model</dd>
+    
+</dl>
