@@ -59,6 +59,9 @@ class Completion extends Node {
             },
             data: {
                 prompt: vals.prompt,
+                temperature: vals.temperature,
+                model: vals.model,
+                max_tokens: vals.maxToken 
             },
         };
 
